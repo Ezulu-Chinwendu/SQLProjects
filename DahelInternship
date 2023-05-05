@@ -1,0 +1,83 @@
+--1. Select rows from the film table where the rating is PG.
+--Answer
+select * from film where rating = 'PG';
+
+--2. Select rows from the film table where the rating is PG or G
+--Answer
+select * from film where rating = 'PG' or rating = 'G';
+
+--3. Select rows from the actor table where the first name is Angela, Angelina, or Audrey.
+--Answer
+select * from actor
+where first_name in('Angela','Angelina','Audrey');
+
+--4. Count the number of cities for each country id in the city table. 
+--Answer
+select * from city
+select count(distinct country )
+
+--5. Select the Country_ids from the city table that have more than 20 cities associated with them
+select *  from city
+--Answer
+select * from
+( 
+select country_id, count(distinct city) as no_of_city from city
+group by country_id
+order by count(distinct city) desc
+) as result where no_of_city > 20
+
+--6. Which film (id) has the most actors?
+select * from actor
+select * from film_actor
+--Answer
+select film_id, count(distinct actor_id) as no_of_actor_id
+from film_actor
+group by film_id
+order by  count(distinct actor_id) desc
+limit 1
+
+
+--7. What is the average rental rate of films?
+--Answer
+select * from film
+select avg(rental_rate) from film;
+
+--8. Get a list of actors with the first name Chris, Cameron, or Cuba.
+--Answer
+select * from actor
+where first_name in('Chris','Cameron','Cuba');
+
+--9. Select the row from customer for customer named Jamie Rice.
+--Answer
+select * from customer
+where first_name = 'Jamie' and last_name = 'Rice'
+
+--10. What are the different rental durations that the store allows?
+--Answer
+select * from  film
+select distinct(rental_duration) from film
+order by rental_duration asc;
+
+--11. Select the 10 actors who have the longest names (first and last name combined).
+--Answer
+select first_name, last_name,
+first_name||' '||last_name as name_of_actor,
+char_length(first_name||' '||last_name ) as length_of_name
+from actor
+order by char_length(first_name||' '||last_name ) desc
+limit 10
+
+--12. Which film (id) has the most actors? Which actor (id) is in the most films?
+--Answer
+select film_id, count(distinct actor_id) as no_of_actor_id
+from film_actor
+group by film_id
+order by  count(distinct actor_id) desc
+limit 1
+
+-- For Which actor (id) is in the most films?
+select actor_id, count(distinct film_id) as no_of_film_id
+from film_actor
+group by actor_id
+order by  count(distinct film_id) desc
+limit 1
